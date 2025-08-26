@@ -361,53 +361,31 @@
         <label for="businessType">Industry Type:</label>
         <select id="businessType" name="businessType" required>
           <option value="">Please Select</option>
-          <option value="Abrasive Products">Abrasive Products</option>
-          <option value="Abrasive Products (mfrs)">Abrasive Products (mfrs)</option>
-          <option value="Access Panels">Access Panels</option>
-          <option value="Acctng Audtng Bkp">Acctng Audtng Bkp</option>
-          <option value="Acupuncture">Acupuncture</option>
-          <option value="Adhesives Sealants">Adhesives Sealants</option>
-          <option value="Adjstnmt Clctn Svc">Adjstnmt Clctn Svc</option>
-          <option value="Advertising Marketing">Advertising Marketing</option>
-          <option value="Advertising Nec">Advertising Nec</option>
-          <option value="Advertising-agencies & Counselors">Advertising-agencies & Counselors</option>
-          <option value="Advertising-computer">Advertising-computer</option>
-          <option value="Advertising-direct Mail">Advertising-direct Mail</option>
-          <option value="Advertising-directory & Guide">Advertising-directory & Guide</option>
-          <option value="Advertising-magazine">Advertising-magazine</option>
-          <option value="Advertising-newspaper">Advertising-newspaper</option>
-          <option value="Advertising-outdoor">Advertising-outdoor</option>
-          <option value="Advertising-promotional">Advertising-promotional</option>
-          <option value="Advertising-specialties (whls)">Advertising-specialties (whls)</option>
-          <option value="Advertising-specialties-manufacturers">Advertising-specialties-manufacturers</option>
-          <option value="Advertising-television">Advertising-television</option>
-          <option value="Advertising Agencies">Advertising Agencies</option>
-          <option value="Aerospace Industries (mfrs)">Aerospace Industries (mfrs)</option>
-          <option value="Aggregates-construction Materials (whls)">Aggregates-construction Materials (whls)</option>
-          <option value="Chiropractor">Chiropractor</option>
-          <option value="Cosmetic Surgeon">Cosmetic Surgeon</option>
-          <option value="Dentist">Dentist</option>
-          <option value="Doctor">Doctor</option>
-          <option value="E-commerce">E-commerce</option>
-          <option value="Hairdresser/Beautician/Barber">Hairdresser/Beautician/Barber</option>
-          <option value="Lawyer">Lawyer</option>
-          <option value="Logistic Trucking">Logistic Trucking</option>
-          <option value="Manufacturer">Manufacturer</option>
-          <option value="Plastic Surgeon">Plastic Surgeon</option>
-          <option value="Real Estate Broker">Real Estate Broker</option>
-          <option value="Rental">Rental</option>
-          <option value="Restaurant">Restaurant</option>
-          <option value="Retail">Retail</option>
-          <option value="Supermarket">Supermarket</option>
-          <option value="Wholesale">Wholesale</option>
-          <option value="Other">Other</option>
+          <option value="Retail Store">Retail Store</option>
+          <option value="Restaurant / Food Service">Restaurant / Food Service</option>
+          <option value="E-commerce / Online Store">E-commerce / Online Store</option>
+          <option value="Construction / Trades (Plumbing, Electrical, HVAC)">Construction / Trades (Plumbing, Electrical, HVAC)</option>
+          <option value="Healthcare / Medical Practice">Healthcare / Medical Practice</option>
+          <option value="Professional Services (Consulting, Legal, Accounting)">Professional Services (Consulting, Legal, Accounting)</option>
+          <option value="Automotive (Repair, Dealership)">Automotive (Repair, Dealership)</option>
+          <option value="Hospitality / Lodging (Hotels, Motels, B&Bs)">Hospitality / Lodging (Hotels, Motels, B&Bs)</option>
+          <option value="Manufacturing / Production">Manufacturing / Production</option>
+          <option value="Transportation / Logistics">Transportation / Logistics</option>
+          <option value="Beauty Salon / Spa">Beauty Salon / Spa</option>
+          <option value="Fitness / Gym">Fitness / Gym</option>
+          <option value="Real Estate / Property Management">Real Estate / Property Management</option>
+          <option value="Technology / Software">Technology / Software</option>
+          <option value="Agriculture">Agriculture</option>
+          <option value="Non-Profit Organization">Non-Profit Organization</option>
+          <option value="Other (Please specify)">Other (Please specify)</option>
         </select>
         <input type="hidden" id="otherIndustryType" name="otherIndustryType" value="">
       </div>
-      <div class="form-group">
-        <label for="productServiceSold">Product/Service Sold:</label>
-        <input type="text" id="productServiceSold" name="productServiceSold" required>
+      <div class="form-group" id="otherIndustryGroup" style="display: none;">
+        <label for="otherIndustryText">Please specify (20 words max):</label>
+        <input type="text" id="otherIndustryText" name="otherIndustryText" placeholder="Enter your industry type">
       </div>
+
       <div class="form-group">
         <label for="monthlyGrossIncome">Monthly Gross Income:</label>
         <div class="currency-input">
@@ -553,33 +531,29 @@
     });
 
     const businessTypeSelect = document.getElementById('businessType');
+    const otherIndustryGroup = document.getElementById('otherIndustryGroup');
+    const otherIndustryText = document.getElementById('otherIndustryText');
+    const otherIndustryType = document.getElementById('otherIndustryType');
+    
     businessTypeSelect.addEventListener('change', function() {
-      if (this.value === 'Other') {
-        let otherIndustry = prompt('Please specify your type of business (20 words or less):');
-        if (otherIndustry) {
-          const words = otherIndustry.split(' ');
-          if (words.length > 20) {
-            otherIndustry = words.slice(0, 20).join(' ');
-          }
-          document.getElementById('otherIndustryType').value = otherIndustry;
-          const otherOption = this.querySelector('option[value="Other"]');
-          if (otherOption) {
-            otherOption.textContent = otherIndustry;
-          }
-        } else {
-          this.value = '';
-          const otherOption = this.querySelector('option[value="Other"]');
-          if (otherOption) {
-            otherOption.textContent = 'Other';
-          }
-        }
+      if (this.value === 'Other (Please specify)') {
+        otherIndustryGroup.style.display = 'flex';
+        otherIndustryText.required = true;
+        otherIndustryText.focus();
       } else {
-        document.getElementById('otherIndustryType').value = '';
-        const otherOption = this.querySelector('option[value="Other"]');
-        if (otherOption) {
-          otherOption.textContent = 'Other';
-        }
+        otherIndustryGroup.style.display = 'none';
+        otherIndustryText.required = false;
+        otherIndustryText.value = '';
+        otherIndustryType.value = '';
       }
+    });
+    
+    otherIndustryText.addEventListener('input', function() {
+      const words = this.value.trim().split(/\s+/).filter(word => word.length > 0);
+      if (words.length > 20) {
+        this.value = words.slice(0, 20).join(' ');
+      }
+      otherIndustryType.value = this.value;
     });
 
     function generatePdf() {
@@ -612,14 +586,12 @@
       
       let businessType;
       const selectedBusinessType = val('businessType');
-      if (selectedBusinessType === 'Other') {
-          businessType = val('otherIndustryType');
+      if (selectedBusinessType === 'Other (Please specify)') {
+          businessType = val('otherIndustryText') || 'Other';
       } else {
           businessType = selectedBusinessType;
       }
       doc.text(`Industry Type: ${businessType}`, 40, y); y += 16;
-      
-      doc.text(`Product/Service Sold: ${val('productServiceSold')}`, 40, y); y += 16;
       doc.text(`Monthly Gross Income: $${val('monthlyGrossIncome')}`, 40, y); y += 16;
       doc.text(`Funding Amount Request: $${val('fundingAmountRequest')}`, 40, y); y += 24;
 
